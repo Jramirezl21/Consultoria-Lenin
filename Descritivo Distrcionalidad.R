@@ -5,7 +5,10 @@ install.packages("easypackages")
 library("easypackages")
 
 lib_req<-c("lubridate","dplyr","visdat","missMDA","mice","DMwR2","corrplot",
-           "editrules","readxl","factoextra","FactoMineR","ade4")
+           "editrules","readxl","factoextra","FactoMineR","ade4","parameters","apa","haven","ggplot2","ggpubr","gridExtra",
+              "apaTables", "reshape", "GPArotation", "mvtnorm", "psych", 
+              "psychometric", "lavaan", "nFactors", "semPlot", "lavaan", "MVN",
+              "semTools")
 easypackages::packages(lib_req) 
 # LECTURA Y LIMPIEZA DE DATOS ----
 discrecional <- read_excel("data_discrecional.xlsx")
@@ -44,6 +47,7 @@ KMO(discrecional[,c(41:49)])
 KMO(discrecional[,c(50:58)])
 KMO(discrecional[,c(59:71)])
 # Bartlett
+options(scipen = 999, digits = 4)
 cortest.bartlett(cor(discrecional[,c(13:27)]
                      , use = "complete.obs"),
                  n = nrow(na.omit(discrecional[,c(13:27)])))
@@ -106,6 +110,25 @@ PCA(discrecional[,c(50:58)])
 
 fviz_pca_var(PCA(discrecional[,c(59:71)]))
 PCA(discrecional[,c(59:71)])
+
+
+pca1 <- prcomp(discrecional[,c(13:27)], scale. = TRUE)
+pca2 <- prcomp(discrecional[,c(28:40)], scale. = TRUE)
+pca3 <- prcomp(discrecional[,c(41:49)], scale. = TRUE)
+pca4 <- prcomp(discrecional[,c(50:58)], scale. = TRUE)
+pca5 <- prcomp(discrecional[,c(59:71)], scale. = TRUE)
+
+g1 <- fviz_pca_var(pca1, title = "Discrepancia")
+g2 <- fviz_pca_var(pca2, title = "Dilemas")
+g3 <- fviz_pca_var(pca3, title = "Heurística")
+g4 <- fviz_pca_var(pca4, title = "Afrontamiento")
+g5 <- fviz_pca_var(pca5, title = "Creatividad")
+
+library(ggpubr)
+
+ggarrange(g1, g2, g3, g4, g5, 
+          ncol = 3, nrow = 2, 
+          labels = c("A", "B", "C", "D", "E"))
 #Indice sumativo
 #Analisis descriptivo por puntaje y general
 
