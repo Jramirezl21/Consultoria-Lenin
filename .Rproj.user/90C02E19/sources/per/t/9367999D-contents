@@ -12,6 +12,7 @@ lib_req<-c("lubridate","dplyr","visdat","missMDA","mice","DMwR2","corrplot",
 easypackages::packages(lib_req) 
 # LECTURA Y LIMPIEZA DE DATOS ----
 discrecional <- read_excel("data_discrecional.xlsx")
+data <- read_excel("data_discrecional.xlsx")
 colnames(discrecional)
 discrecional <- discrecional %>% select(-Fecha_inicio, -Fecha_final,-Autor,
                                            -País,-No)
@@ -19,7 +20,10 @@ discrecional <- discrecional %>% select(-Fecha_inicio, -Fecha_final,-Autor,
 
 discrecional <- discrecional %>% mutate(across(c(Sexo, Edad, Años_de_graduado,
                   Nivel,Años_en_el_puesto,Años_en_la_AP,Sueldo), as.factor))
+trimws(texto)
 
+data <- data %>% mutate(across(c(Sexo, Edad, Años_de_graduado,
+                  Nivel,Años_en_el_puesto,Años_en_la_AP,Sueldo), as.factor))
 # ANALISIS DESCRIPTIVO INICAL----
 # Analisis de frecuencias inical
 colnames(discrecional)
